@@ -1,0 +1,25 @@
+function tostring_table(o,s)
+    s = s or ""
+    if type(o) == "table" then
+        s = s .."{";
+        for k,v in pairs(o) do
+            local str = k .. "=";
+            if type(v) == "number" or
+                type(v) == "function" or
+                type(v) == "boolean" or
+                type(v) == "nil" then
+
+                    s = s .. str .. tostring(v) ..  ','
+
+                elseif type(v) == "string" then
+                    s = s ..str .. string.format("%q",v) .. ','
+                else
+                    s = s .. str;
+                    s = s .. tostring_table(v)
+                    s = s .. ","
+            end;
+        end
+        s = s  .. "}"
+    end
+    return s
+end
